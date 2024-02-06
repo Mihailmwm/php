@@ -7,9 +7,10 @@
     <title>Тестируем PHP</title>
 </head>
 <body>
+
     <header>
-        <img src="" alt="logo">
-        <h1> Домашняя работа: Hello, World!</h1>
+        <p><img src="logo.png" width = '50' height = '50' alt="logo" '> </p>
+        <center>Домашняя работа: Hello, World!</center>
     </header>
     <main>
         <?php
