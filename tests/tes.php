@@ -6,19 +6,36 @@
     <title>Document</title>
 </head>
 <body>
-        <?php
-         $sum = 0;
-         $count = 1;
-         
-         while ($count <= 15) {
-             if ($count % 3 === 0) {
-                 $sum += $count;
-             }
-             $count++;
-         }
-         
-         echo "Сумма первых 15 членов натурального ряда кратных 3 (цикл с предусловием): " . $sum;
-         
-         ?>
+<?php
+
+$a = 5.7;
+
+$b = 8.3;
+
+$c = '5.6';
+
+$d = '9.2кг';
+
+
+
+$a_rounded = round($a);
+
+$b_rounded = round($b);
+
+$c_rounded = round($c);
+
+$d_rounded = round($d);
+
+
+
+echo "Значение переменной a (пол): " . $a_rounded . "<br>";
+
+echo "Значение переменной b (потолок): " . $b_rounded . "<br>";
+
+echo "Значение переменной c (пол): " . $c_rounded . "<br>";
+
+echo "Значение переменной d (потолок): " . $d_rounded . "<br>";
+
+?>
 </body>
 </html>
