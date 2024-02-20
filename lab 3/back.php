@@ -7,7 +7,11 @@
 </head>
 <body>
     <?php
-        get_headers('https://httpbin.org/post')
+    $url = 'https://e.mospolytech.ru';
+
+    print_r(get_headers($url));
+    
+    print_r(get_headers($url, 1));
     ?>
     <a href="index.html"> 1 page</a>
 </body>
