@@ -3,252 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="calc.php">
-    <title>Document</title>
+    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="">
+    <title>lab4</title>
+    <style>
+        body {
+            background: url(b.jpg) no-repeat;
+
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+        }
+
+        button {
+            font-size: large;
+            font-weight: 600;
+        }
+
+        section {
+            background-color: #FFEB3B;
+            border: 2px solid black;
+            max-width: fit-content;
+            display: flex;
+            flex-direction: column;
+            padding: 2px;
+            margin: 0;
+            margin-top: 40px;
+            border-radius: 25px;
+        }
+
+        .screen {
+            min-height: 50px;
+            background-color: black;
+            margin: 20px 20px 5px 22px;
+            color: white;
+            font-size: x-large;
+            border-radius: 25px;
+            border-color:#FDD835;
+        }
+
+
+        .operation {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            max-width: 330px;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            
+        }
+
+        .operation>button {
+            padding: 10px;
+            background-color: rgb(255, 152, 7);
+            width: 50px;
+            border-radius: 100px;
+            border-color: #FDD835;
+        }
+
+        .send_reset {
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 30px;
+            margin-bottom: 20px;
+        }
+
+        .send_reset>button {
+            padding: 10px;
+            background-color: rgb(181, 7, 255);
+            width: 100px;
+
+        }
+
+
+    </style>
 </head>
 <body>
-    <script src= 
-"https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"
-			integrity= 
-"sha512-iphNRh6dPbeuPGIrQbCdbBF/qcqadKWLa35YPVfMZMHBSI6PLJh1om2xCTWhpVpmUyb4IvVS9iYnnYMkleVXLA=="
-			crossorigin="anonymous"
-			referrerpolicy="no-referrer"> 
-	</script> 
-
-	<style> 
-
-    
-		table { 
-			border: 3px solid black; 
-			margin-left: auto; 
-			margin-right: auto;
-
-            
-		} 
-
-		input[type="button"] { 
-			width: 88%; 
-			padding: 20px 45px; 
-			background-color: 
-			
-			font-size: 25px; 
-			font-weight: bold; 
-			border: none; 
-			border-radius: 5px; 
-		} 
-
-		input[type="text"] { 
-			padding: 20px 120px; 
-			font-size: 26px; 
-			font-weight: bold; 
-			border: none; 
-			border-radius: 8px; 
-			border: 3px solid black; 
-
-            
-		} 
-	</style> 
-</head> 
-
-
-<body> 
-    
-	<table id="calculator"> 
-		<tr> 
-			<td colspan="3"> 
-				<input type="text" id="answer"> 
-			</td> 
-		</tr> 
-		<tr> 
-			<td> 
-				<input type="button"
-						value="AC"
-						onclick="clear_input()"
-						onkeydown="ans(event)"> 
-			</td> 
-			<td> 
-				<input type="button"
-						value="("
-						onclick="res('(')"
-						onkeydown="ans(event)"> 
-			</td> 
-
-
-            <td> 
-				<input type="button"
-						value=")"
-						onclick="res(')')"
-						onkeydown="ans(event)"> 
-			</td> 
-
-
-
-
-
-			<td> 
-				<input type="button"
-						value="%"
-						onclick="res('%')"
-						onkeydown="ans(event)"> 
-			</td> 
-			<td> 
-				<input type="button"
-						value="/"
-						onclick="res('/')"
-						onkeydown="ans(event)"> 
-			</td> 
-		</tr> 
-		<tr> 
-			<td> 
-				<input type="button"
-						value="7"
-						onclick="res('7')"
-						onkeydown="ans(event)"> 
-			</td> 
-			<td> 
-				<input type="button"
-						value="8"
-						onclick="res('8')"
-						onkeydown="ans(event)"> 
-			</td> 
-			<td> 
-				<input type="button"
-						value="9"
-						onclick="res('9')"
-						onkeydown="ans(event)"> 
-			</td> 
-			<td> 
-				<input type="button"
-						value="*"
-						onclick="res('*')"
-						onkeydown="ans(event)"> 
-			</td> 
-		</tr> 
-
-		<tr> 
-			<td> 
-				<input type="button"
-						value="4"
-						onclick="res('4')"
-						onkeydown="ans(event)"> 
-			</td> 
-			<td> 
-				<input type="button"
-						value="5"
-						onclick="res('5')"
-						onkeydown="ans(event)"> 
-			</td> 
-			<td> 
-				<input type="button"
-						value="6"
-						onclick="res('6')"
-						onkeydown="ans(event)"> 
-			</td> 
-			<td> 
-				<input type="button"
-						value="-"
-						onclick="res('-')"
-						onkeydown="ans(event)"> 
-			</td> 
-		</tr> 
-		<tr> 
-
-			<td> 
-				<input type="button"
-						value="1"
-						onclick="res('1')"
-						onkeydown="ans(event)"> 
-			</td> 
-			<td> 
-				<input type="button"
-						value="2"
-						onclick="res('2')"
-						onkeydown="ans(event)"> 
-			</td> 
-			<td> 
-				<input type="button"
-						value="3"
-						onclick="res('3')"
-						onkeydown="ans(event)"> 
-			</td> 
-			<td> 
-				<input type="button"
-						value="+"
-						onclick="res('+')"
-						onkeydown="ans(event)"> 
-			</td> 
-		</tr> 
-		<tr> 
-			<td> 
-				<input type="button"
-						value="0"
-						onclick="res('0')"
-						onkeydown="ans(event)"> 
-			</td> 
-			<td> 
-				<input type="button"
-						value="."
-						onclick="res('.')"
-						onkeydown="ans(event)"> 
-			</td> 
-			<td> 
-				<input type="button"
-						value="clear"
-						onclick="clearfield()"
-						onkeydown="ans(event)"> 
-			</td> 
-
-			
-			<td> 
-				<input type="button"
-						value="="
-						onclick="calculate()"> 
-			</td> 
-		</tr> 
-	</table> 
-
-	<script> 
-
-		function res(val) { 
-			document.getElementById("answer").value += val 
-		} 
-		function clearfield() { 
-			let st = document.getElementById("answer").value 
-			document.getElementById("answer").value = 
-			st.substring(0, st.length - 1); 
-		} 
-
-		function ans(event) { 
-			if (event.key == '0' || event.key == '1'
-				|| event.key == '2' || event.key == '3'
-				|| event.key == '4' || event.key == '5'
-				|| event.key == '6' || event.key == '7'
-				|| event.key == '8' || event.key == '9'
-				|| event.key == '+' || event.key == '-'
-				|| event.key == '*' || event.key == '/') 
-				document.getElementById("answer").value += event.key; 
-		} 
-
-		var cal = document.getElementById("calculator"); 
-		cal.onkeyup = function (event) { 
-			if (event.keyCode === 13) { 
-				console.log("Enter"); 
-				let a = document.getElementById("answer").value 
-				console.log(a); 
-				calculate(); 
-			} 
-		} 
-
-		function calculate() { 
-			let a = document.getElementById("answer").value 
-			let b = math.evaluate(a) 
-			document.getElementById("answer").value = b 
-		} 
-
-		function clear_input() { 
-			document.getElementById("answer").value = ""
-		} 
-	</script> 
-
+    <header></header>
+    <main>
+        <section>
+            <input class="screen" type="text" id="output" readonly></input>
+            <div class="operation">
+                <button id="one">1</button>
+                <button id="two">2</button>
+                <button id="three">3</button>
+                <button id="four">4</button>
+                <button id="five">5</button>
+                <button id="six">6</button>
+                <button id="seven">7</button>
+                <button id="eight">8</button>
+                <button id="nine">9</button>
+                <button id="zero">0</button>
+                <button style="width: 70px" id="multiple" >*</button>
+                <button style="width: 70px" id="divide">/</button>
+                <button style="width: 70px" id="minus">-</button>
+                <button style="width: 70px" id="plus">+</button>
+                <button style="width: 70px" id="leftParenthesis">(</button>
+                <button style="width: 70px" id="rightParenthesis">)</button>
+                <button style=" background-color: #FF7043; width: 70px " id="clean">clear</button>
+                <button style="background-color: #80DEEA; width: 70px" id="equal">=</button>
+            </div>
+        </section>
+    </main>
+    <footer></footer>
+    <script src="main.js"></script>
 </body>
 </html>
