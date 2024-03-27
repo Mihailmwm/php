@@ -1,118 +1,91 @@
 <?php
+require_once 'trigonometry.php';
+
+function transformExpression($expression) {
+    $arguments = interpretExpression($expression);
+    return calculateExpression($arguments);
+}
+
+function interpretExpression($expression) {
+    preg_match_all('/(-?\d+\.?\d*)|([\+\-\*\/\(\)])|(sin|cos|tan|cot)/', $expression, $matches);
+    $arguments = $matches[0];
+
+    $interpreted = [];
+    for ($i = 0; $i < count($arguments); $i++) {
+        if (in_array($arguments[$i], ['sin', 'cos', 'tan', "cot"]) && is_numeric($arguments[$i + 1])) {
+            $interpreted[] = ['function' => $arguments[$i], 'argument' => $arguments[$i + 1]];
+            $i++;
+        } else {
+            $interpreted[] = $arguments[$i];
+        }
+    }
+
+    return $interpreted;
+}
+
+function calculateExpression($arguments) {
+    $index = 0;
+    return transformToFormula($arguments, $index);
+}
+
+function transformToFormula(&$arguments, &$index) {
+    $result = parseExpression($arguments, $index);
+
+    while ($index < count($arguments) && (in_array($arguments[$index], ['+', '-']))) {
+        $operator = $arguments[$index++];
+        $operand = parseExpression($arguments, $index);
+
+        if ($operator == '+') {
+            $result += $operand;
+        } else {
+            $result -= $operand;
+        }
+    }
+
+    return $result;
+}
+
+function parseExpression(&$arguments, &$index) {
+    $result = outputFactor($arguments, $index);
+
+    while ($index < count($arguments) && (in_array($arguments[$index], ['*', '/']))) {
+        $operator = $arguments[$index++];
+        $operand = outputFactor($arguments, $index);
+
+        if ($operator == '*') {
+            $result *= $operand;
+        } else {
+            $result /= $operand;
+        }
+    }
+
+    return $result;
+}
+
+function outputFactor(&$arguments, &$index) {
+    if (is_numeric($arguments[$index]) || ($arguments[$index] == '-' && is_numeric($arguments[$index + 1]))) {
+        $result = $arguments[$index++];
+        if ($result == '-' && is_numeric($arguments[$index])) {
+            $result .= $arguments[$index++];
+        }
+    } elseif (in_array($arguments[$index], ['sin', 'cos', 'tan', 'cot'])) {
+        $func = $arguments[$index++];
+        $arg = transformToFormula($arguments, $index);
+        $result = convertToRadians($func, $arg);
+    } elseif ($arguments[$index] == '(') {
+        $index++;
+        $result = transformToFormula($arguments, $index);
+        $index++;
+    }
+
+    return $result;
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    try {
+    if (isset($_POST['expression'])) {
         $expression = $_POST['expression'];
-        $result = calculateExpression($expression);
+        $result = transformExpression($expression);
         echo $result;
-    } catch (Exception $e) {
-        echo 'Error';
-    }
-}
-
-function calculateExpression($expression) {
-    try {
-        $expression = str_replace(' ', '', $expression);
-        return calculateAdditionAndSubtraction($expression);
-    } catch (Exception $e) {
-        throw new Exception('Error');
-    }
-}
-
-function calculateAdditionAndSubtraction(&$expression) {
-    try {
-        $result = calculateMultiplicationAndDivision($expression);
-
-        while (strlen($expression) > 0) {
-            $operation = $expression[0];
-
-            if ($operation == '+' || $operation == '-') {
-                $expression = substr($expression, 1);
-                $num2 = calculateMultiplicationAndDivision($expression);
-
-                if ($operation == '+') {
-                    $result += $num2;
-                } elseif ($operation == '-') {
-                    $result -= $num2;
-                }
-            } else {
-                break;
-            }
-        }
-
-        return $result;
-    } catch (Exception $e) {
-        throw new Exception('Error');
-    }
-}
-
-function calculateMultiplicationAndDivision(&$expression) {
-    try {
-        $result = calculateNumber($expression);
-
-        while (strlen($expression) > 0) {
-            $operation = $expression[0];
-
-            if ($operation == '*' || $operation == '/') {
-                $expression = substr($expression, 1);
-                $num2 = calculateNumber($expression);
-
-                if ($operation == '*') {
-                    $result *= $num2;
-                } elseif ($operation == '/') {
-                    if ($num2 == 0) {
-                        throw new Exception('Error');
-                    }
-                    $result /= $num2;
-                }
-            } else {
-                break;
-            }
-        }
-
-        return $result;
-    } catch (Exception $e) {
-        throw new Exception('Error');
-    }
-}
-
-function calculateNumber(&$expression) {
-    try {
-        if ($expression[0] == '(') {
-            $expression = substr($expression, 1);
-            $result = calculateAdditionAndSubtraction($expression);
-            if ($expression[0] == ')') {
-                $expression = substr($expression, 1);
-            } else {
-                throw new Exception('Error');
-            }
-
-            return $result;
-        }
-
-        $number = "";
-        $isNegative = false;
-
-        while (strlen($expression) > 0 && ($expression[0] == '-' || is_numeric($expression[0]))) {
-            if ($expression[0] == '-') {
-                if ($number !== "") {
-                    break;
-                }
-                $isNegative = !$isNegative;
-            } else {
-                $number .= $expression[0];
-            }
-
-            $expression = substr($expression, 1);
-        }
-
-        if ($number === "") {
-            throw new Exception('Error');
-        }
-
-        $number = intval($number);
-        return ($isNegative) ? -$number : $number;
-    } catch (Exception $e) {
-        throw new Exception('Error');
     }
 }
 ?>
